@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Gomitti</title>
+        <link rel="stylesheet" href="./frontend/css/styles.css">
+    </head>
+
+<body>
+    <header class="topbar">
+        <strong>Gomitti</strong>
+        <nav aria-label="Principal">
+            <a href="index.html">Inicio</a>
+            <a href="./frontend/html/pedido.html">Pedidos</a>
+            <a href="./frontend/html/historial.html">Historial de pedidos</a>
+            <a class="solo-admin" href="./frontend/html/inventario.html">Inventario</a>
+            <a class="solo.admin" href="./frontend/html/catalogo.html">Catálogo</a>  
+        </nav>
+        <span>
+            <span data-usuario></span>
+            <span class="badge" data-rol-texto></span>
+            <button class="sec" onclick="cerrarSesion()">Salir</button>
+        </span>
+    </header>
+
+    <main>
+        <h1>Hola, <span data-usuario></span></h1>
+        <section aria-labelledby="t-turno">
+            <h2 id="t-turno">Resumen del turno</h2>
+            <div class="grid" id="resumen">
+                <article class="card">
+                    <h3>Ventas del turno</h3>
+                    <p id="ventas-turno">-</p>
+                </article>
+                <article class="card solo-admin">
+                    <h3>stock bajo o agotados</h3>
+                    <p id="alertas-stock">-</p>
+                </article>
+            </div>
+        </section>
+        <section aria-labelledby="t-accesos">
+            <h2 id="t-accesos">Accesos rápidos</h2>
+            <div class="grid">
+                <a class="card" href="./frontend/html/pedido.html">Tomar pedido</a>
+                <a class="card" href="./frontend/html/historial.html">Ver ventas</a>
+                <a class="card solo-admin" href="./frontend/html/inventario.html">Consultar inventario</a>
+                <a class="card solo-admin" href="./frontend/html/catalogo.html">Catálogo y promociones</a>
+            </div>
+        </section>
+    </main>
+    <script src="./backend/js/auth.js"></script>
+    <script>protegerPagina();</script>
+</body>
+</html>
