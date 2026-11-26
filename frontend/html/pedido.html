@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Gomitti</title>
+        <link rel="stylesheet" href="../css/styles.css">
+    </head>
+<body>
+    <header class="topbar">
+        <strong>Gomitti</strong>
+        <nav aria-label="Principal">
+            <a href="../../index.html">Inicio</a>
+            <a href="pedido.html">Pedidos</a>
+            <a href="historial.html">Historial de pedidos</a>
+            <a class="solo-admin" href="inventario.html">Inventario</a>
+            <a class="solo.admin" href="catalogo.html">Catálogo</a>  
+        </nav>
+        <span>
+            <span data-usuario></span>
+            <span class="badge" data-rol-texto></span>
+            <button class="sec" onclick="cerrarSesion()">Salir</button>
+        </span>
+    </header>
+    <main class="pedido-layout">
+        <section class="productos" aria-labelledby="t-prod">
+            <h2 id="t-prod">Productos</h2>
+            <label for="buscar">Buscar</label><input id="buscar" type="search">
+            <div class="grid" id="lista-productos" aria-live="polite">
+                <p>Cargando productos...</p>
+            </div>
+        </section>
+        <aside class="sidebar" aria-label="Resumen del pedido">
+            <h2>Pedido actual</h2>
+            <ul id="items"></ul>
+            <p>Total: <strong id="total">$0.00</strong></p>
+            <fieldset>
+                <legend>Método de pago</legend>
+                <label><input type="radio" name="pago" value="efectivo" checked>Efectivo</label>
+                <label><input type="radio" name="pago" value="tarjeta">Tarjeta</label>
+            </fieldset>
+            <div id="bloque-efectivo"><label for="recibido">Recibido</label><input id="recibido" type="number" min="0" step="0.5">
+                <p>Cambio: <strong id="cambio">$0.00</strong></p>
+            </div>
+            <p id="error" class="msg-error" role="alert"></p>
+            <a class="btn" href="detalles.html">Extras y notas</a>
+            <button id="confirmar">Confirmar venta</button>
+        </aside>
+    </main>
+
+    <script src="/backend/js/auth.js"></script>
+    <script>protegerPagina();</script>
+    <script src="/backend/js/pedido.js"></script>
+</body>
+</html>

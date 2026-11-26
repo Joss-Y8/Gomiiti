@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Gomitti</title>
+        <link rel="stylesheet" href="../css/styles.css">
+    </head>
+<body>
+    <main>
+        <h1>Catálogo y promociones</h1>
+        <form class="card" id="form-producto">
+            <h2>Nuevo producto</h2>
+            <label for="nombre">Nombre</label><input id="nombre" required>
+            <label for="categoria">Categoría</label>
+            <select id="categoria" required><!-- js/catalogo.js: opciones de php/categorias.php --></select>
+            <label for="precio">Precio</label><input id="precio" type="number" min="0" step="0.5" required>
+            <label><input type="checkbox" id="disponible" checked> Disponible</label>
+            <button type="submit">Agregar producto</button>
+        </form>
+  
+        <div class="tabla-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="productos"><!-- Editar / Eliminar --></tbody>
+            </table>
+        </div>
+
+        <form class="card" id="form-promo">
+            <h2>Promociones</h2>
+            <label for="promo-nombre">Nombre</label><input id="promo-nombre">
+            <label for="promo-prods">Productos aplicables</label><select id="promo-prods" multiple></select>
+            <label for="promo-precio">Precio o descuento</label><input id="promo-precio" type="number" step="0.5">
+            <button type="submit">Crear promoción</button>
+        </form>
+        <ul id="lista-promos"><!-- Activar / Desactivar / Eliminar --></ul>
+    </main>
+
+    <script src="/backend/js/auth.js"></script>
+    <script>protegerPagina();</script>
+    <script src="/backend/js/catalogo.js"></script>
+</body>
+</html>

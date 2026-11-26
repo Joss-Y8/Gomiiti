@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Gomitti</title>
+        <link rel="stylesheet" href="../css/styles.css">
+    </head>
+<body>
+    <header class="topbar">
+        <strong>Gomitti</strong>
+        <nav aria-label="Principal">
+            <a href="../../index.html">Inicio</a>
+            <a href="pedido.html">Pedidos</a>
+            <a href="historial.html">Historial de pedidos</a>
+            <a class="solo-admin" href="inventario.html">Inventario</a>
+            <a class="solo.admin" href="catalogo.html">Catálogo</a>  
+        </nav>
+        <span>
+            <span data-usuario></span>
+            <span class="badge" data-rol-texto></span>
+            <button class="sec" onclick="cerrarSesion()">Salir</button>
+        </span>
+    </header>
+    <main>
+        <a href="pedido.html">Volver al pedido</a>
+        <h1>Extras y notas</h1>
+        <form class="card" id="form-detalles">
+            <label for="articulo">Detalles del Pedido</label>
+            <select id="articulo"><!--Son los detalles pero no vienen de la bd--></select>
+            <div id="extras-contenedor" aria-live="polite">
+                <!--Aqui agrupamos los extras por el js/detalles.js y extras.php-->
+                <p>Cargando complementos...</p>
+            </div>
+        </form>
+        <label for="notas">Observaciones</label><textarea id="notas" rows="3"></textarea>
+        <button type="submit">Guardar detalles</button>
+    </main>
+
+    <script src="/backend/js/auth.js"></script>
+    <script>protegerPagina();</script>
+    <script src="/backend/js/detalles.js"></script>
+</body>
+</html>

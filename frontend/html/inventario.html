@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Gomitti</title>
+        <link rel="stylesheet" href="../css/styles.css">
+    </head>
+<body>
+    <main>
+        <h1>Inventario</h1>
+        <section class="card" aria-label="Alertas">
+            <p>Bajo stock: <strong id="n-bajo">0</strong> · Agotados: <strong id="n-agotado">0</strong></p>
+             <!-- Los conteos y el estado lo vamos a calcular en js/inventario.js comparando existencia con mínimo corazona-->
+            <label for="f-estado">Filtrar por estado</label>
+             <select id="f-estado">
+                <option value="">Todos</option>
+                <option>Disponible</option>
+                <option>Bajo stock</option>
+                <option>Agotado</option>
+            </select>
+        </section>
+        
+        <div class="tabla-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto o insumo</th>
+                        <th>Existencia</th>
+                        <th>Mínimo</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="inventario" aria-live="polite"><!-- js/inventario.js: una fila por producto desde un php/inventario.php -->
+                    <tr>
+                        <td colspan="4">Cargando inventario…</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+  
+        <form class="card" id="form-movimiento">
+            <h2>Registrar entrada o ajuste</h2>
+            <label for="item">Producto</label>
+            <select id="item" required><!-- js/inventario.js: mismos productos de la tabla --></select>
+            <label for="tipo">Tipo</label>
+            <select id="tipo">
+                <option value="entrada">Entrada</option>
+                <option value="ajuste">Ajuste</option>
+            </select>
+            <label for="cant">Cantidad</label><input id="cant" type="number" required>
+            <button type="submit">Guardar movimiento</button>
+        </form>
+    </main>
+
+    <script src="/backend/js/auth.js"></script>
+    <script>protegerPagina();</script>
+    <script src="/backend/js/inventario.js"></script>
+</body>
+</html>
