@@ -1,0 +1,163 @@
+/* Mobile first: estilos base = celular; @media agranda hacia escritorio */
+:root{
+    --ink:#2a1233;
+    --purple:#6d1fa0;
+    --pink:#ff5c8a;
+    --lemon:#ffd84d;
+    --bg:#fbf7fd;
+    --card:#fff;
+    --line:#e4d6ee;
+    --ok:#1f9d55;
+    --warn:#d98a00;
+    --bad:#d62839;
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font:16px/1.5 system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--bg); 
+}
+a{
+    color:var(--purple); 
+}
+:focus-visible{
+    outline:3px solid var(--pink);
+    outline-offset:2px;
+}
+.topbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    align-items:center;
+    justify-content:space-between;
+    padding:.75rem 1rem;
+    background:var(--purple);
+    color:#fff;
+}
+.topbar a{
+    color:#fff;
+}
+.topbar nav{
+    display:flex;
+    gap:.75rem;
+    flex-wrap:wrap;
+}
+.badge{
+    background:var(--lemon);
+    color:var(--ink);
+    padding:.1rem .6rem;
+    border-radius:99px;
+    font-weight:600;
+}
+main{
+    padding:1rem;
+    max-width:72rem;
+    margin:auto;
+}
+.grid{
+    display:grid;
+    gap:.75rem;
+    grid-template-columns:1fr; 
+}
+.card{
+    display:block;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:.75rem;
+    padding:1rem;
+    margin-bottom:.75rem;
+}
+button,.btn{
+    min-height:44px;
+    padding:.5rem 1rem;
+    border:0;
+    border-radius:.5rem;
+    background:var(--purple);
+    color:#fff;
+    font:inherit;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+}
+button.sec{
+    background:#fff;
+    color:var(--purple);
+    border:1px solid var(--purple);
+}
+button.danger{
+    background:var(--bad);
+}
+input,select,textarea{
+    width:100%;
+    min-height:44px;
+    padding:.5rem;
+    border:1px solid var(--line);
+    border-radius:.5rem;
+    font:inherit; 
+}
+input[type=radio],input[type=checkbox]{
+    width:auto;
+    min-height:0;
+}
+label{
+    display:block;
+    margin:.5rem 0 .2rem;
+    font-weight:600;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+th,td{
+    padding:.5rem;
+    border-bottom:1px solid var(--line);
+    text-align:left;
+}
+.tabla-scroll{
+    overflow-x:auto;
+}
+.estado-ok{color:var(--ok)}.estado-bajo{color:var(--warn)}.estado-agotado{color:var(--bad)}
+
+.msg-error{
+    color:var(--bad);
+    min-height:1.5em; 
+}
+/* Restricciones visuales por rol (la seguridad real la valida PHP) */
+.solo-admin{
+    display:none;
+}
+body[data-rol="admin"] .solo-admin{
+    display:revert;
+}
+body[data-rol="admin"] .solo-cajero{
+    display:none;
+}
+/* Pedido: en celular el sidebar queda fijo abajo; en escritorio, a la derecha */
+.pedido-layout{
+    display:grid;
+    gap:1rem;
+}
+.sidebar{
+    position:fixed;
+    inset:auto 0 0 0;
+    max-height:45vh;
+    overflow:auto;
+    background:#fff;
+    border-top:3px solid var(--purple);
+    padding:.75rem 1rem;
+    z-index:5;
+}
+.pedido-layout .productos{
+    padding-bottom:50vh;
+}
+@media (min-width:48rem){
+    .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (min-width:64rem){
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .pedido-layout{grid-template-columns:1fr 22rem;align-items:start}
+  .sidebar{position:sticky;top:1rem;inset:auto;max-height:calc(100vh - 2rem);border:1px solid var(--line);border-radius:.75rem}
+  .pedido-layout .productos{padding-bottom:0}
+}
