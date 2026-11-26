@@ -7,6 +7,21 @@
         <link rel="stylesheet" href="../css/styles.css">
     </head>
 <body>
+    <header class="topbar">
+        <strong>Gomitti</strong>
+        <nav aria-label="Principal">
+            <a href="../../index.html">Inicio</a>
+            <a href="pedido.html">Pedidos</a>
+            <a href="historial.html">Historial de pedidos</a>
+            <a class="solo-admin" href="inventario.html">Inventario</a>
+            <a class="solo.admin" href="catalogo.html">Catálogo</a>  
+        </nav>
+        <span>
+            <span data-usuario></span>
+            <span class="badge" data-rol-texto></span>
+            <button class="sec" onclick="cerrarSesion()">Salir</button>
+        </span>
+    </header>
     <main>
         <h1>Catálogo y promociones</h1>
         <form class="card" id="form-producto">
