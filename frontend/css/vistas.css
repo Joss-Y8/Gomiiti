@@ -81,6 +81,30 @@ main > label[for="notas"] {
   resize: vertical;
 }
 
+.sidebar a.btn {
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 0.55rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-soft);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: var(--space-2);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.sidebar a.btn:hover {
+  background-color: var(--color-bg-app);
+  border-color: var(--color-primary);
+}
+
 #buscar:focus,
 #articulo:focus,
 #notas:focus {
