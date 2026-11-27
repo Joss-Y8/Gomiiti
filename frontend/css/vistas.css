@@ -1,0 +1,340 @@
+/* Estilos específicos para index, pedido, detalles, historial, catálogo e inventario */
+
+/* Inicio (index.html) */
+main > section {
+  margin-top: var(--space-6);
+}
+
+main > section > h2 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+#resumen .card h3 {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+#ventas-turno,
+#alertas-stock {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+#alertas-stock {
+  color: var(--color-rose-hover);
+}
+
+/* Accesos rápidos como tarjetas interactivas */
+a.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  color: var(--color-text);
+  transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+a.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  color: var(--color-primary-hover);
+}
+
+a.card::after {
+  content: "→";
+  color: var(--color-rose);
+  font-weight: 700;
+}
+
+/* Toma de pedido y extras (pedido.html & detalles.html) */
+.productos > label,
+#form-detalles > label,
+main > label[for="notas"] {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-1);
+}
+
+#buscar,
+#articulo,
+#notas {
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 0.6rem 0.85rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-neutral);
+  border-radius: var(--radius-sm);
+}
+
+#notas {
+  min-height: 90px;
+  resize: vertical;
+}
+
+#buscar:focus,
+#articulo:focus,
+#notas:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+#lista-productos {
+  margin-top: var(--space-4);
+}
+
+#lista-productos .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-2);
+  border-color: var(--color-border);
+}
+
+/* Lista de artículos en el sidebar de pedido */
+#items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-block: var(--space-3);
+}
+
+#items li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-bg-app);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+}
+
+.sidebar fieldset {
+  border: 1px solid var(--color-border-neutral);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  margin-block: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.sidebar legend {
+  padding-inline: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.sidebar fieldset label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  font-size: var(--text-sm);
+}
+
+#bloque-efectivo {
+  background-color: var(--color-cool-soft);
+  border: 1px solid #bae6fd;
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+#bloque-efectivo label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+#recibido {
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-cool);
+  border-radius: var(--radius-sm);
+}
+
+#total,
+#cambio {
+  color: var(--color-primary-hover);
+  font-size: var(--text-lg);
+}
+
+.msg-error {
+  min-height: 1.25rem;
+  color: var(--color-danger);
+  background-color: var(--color-danger-soft);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.msg-error:empty {
+  display: none;
+}
+
+#confirmar {
+  width: 100%;
+  min-height: var(--touch-target);
+  margin-top: var(--space-2);
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-rose);
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#confirmar:hover {
+  background-color: var(--color-rose-hover);
+}
+
+/* Extras en detalles.html */
+#extras-contenedor {
+  margin-top: var(--space-4);
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* Tablas (historial.html, catalogo.html, inventario.html) */
+.tabla-scroll {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  margin-block: var(--space-4);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: var(--text-sm);
+}
+
+thead {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-hover);
+}
+
+th,
+td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border-neutral);
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--color-bg-app);
+}
+
+tbody tr:hover {
+  background-color: var(--color-rose-soft);
+}
+
+/* Formularios en Catálogo, Inventario e Historial */
+form.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-block: var(--space-4);
+}
+
+form.card h2 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-1);
+}
+
+form.card label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  margin-top: var(--space-1);
+}
+
+form.card input:not([type="checkbox"]),
+form.card select {
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 0.55rem 0.8rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-neutral);
+  border-radius: var(--radius-sm);
+}
+
+form.card select[multiple] {
+  min-height: 110px;
+}
+
+form.card input:focus,
+form.card select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+form.card button[type="submit"],
+main > button[type="submit"] {
+  margin-top: var(--space-3);
+  min-height: var(--touch-target);
+  padding: 0.65rem 1.25rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+form.card button[type="submit"]:hover,
+main > button[type="submit"]:hover {
+  background-color: var(--color-primary-hover);
+}
+
+#lista-promos {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+#lista-promos li {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-rose);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+#acumulado,
+#n-bajo,
+#n-agotado {
+  color: var(--color-primary-hover);
+}

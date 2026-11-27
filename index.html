@@ -4,15 +4,18 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Gomitti</title>
-        <link rel="stylesheet" href="./frontend/css/styles.css">
+        <link rel="stylesheet" href="./frontend/css/base.css">
+        <link rel="stylesheet" href="./frontend/css/layout.css">
+        <link rel="stylesheet" href="./frontend/css/vistas.css">
     </head>
 
 <body>
     <header class="topbar">
-        <strong>Gomitti</strong>
+        <a href="index.html" class="topbar__brand">
+        <img src="./frontend/assets/img/logo-gomitti.png" alt="Gomitti" class="topbar__logo">
+        </a>
         <nav aria-label="Principal">
-            <a href="index.html">Inicio</a>
-            <a href="./frontend/html/pedido.html">Pedidos</a>
+            <a href="./frontend/html/pedido.html">Generar Pedido</a>
             <a href="./frontend/html/historial.html">Historial de pedidos</a>
             <a class="solo-admin" href="./frontend/html/inventario.html">Inventario</a>
             <a class="solo.admin" href="./frontend/html/catalogo.html">Catálogo</a>  
@@ -23,7 +26,6 @@
             <button class="sec" onclick="cerrarSesion()">Salir</button>
         </span>
     </header>
-
     <main>
         <h1>Hola, <span data-usuario></span></h1>
         <section aria-labelledby="t-turno">

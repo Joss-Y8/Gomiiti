@@ -1,0 +1,189 @@
+/* Estructura responsiva, barra superior (.topbar), nav tipo bloques y sidebar*/
+
+/* Barra superior (.topbar) y navegación en bloques (<nav>)*/
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  padding-inline: var(--space-1);
+}
+
+.topbar__logo {
+  height: 100px;
+  width: auto;
+  max-width: 170px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Navegación como bloques de botones */
+.topbar nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.topbar nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target);
+  padding: 0.5rem 0.95rem;
+  background-color: var(--color-bg-app);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: background-color 0.18s ease, color 0.18s ease,
+    border-color 0.18s ease, transform 0.12s ease;
+}
+
+.topbar nav a:hover {
+  background-color: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  color: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+.topbar nav a.is-active,
+.topbar nav a[aria-current="page"] {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+/* Bloque derecho: usuario, rol y botón Salir (.sec) */
+.topbar > span:last-child {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.topbar button.sec {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target);
+  padding: 0.45rem 0.9rem;
+  background-color: var(--color-rose-soft);
+  color: var(--color-rose-hover);
+  border: 1px solid #fbcfe8;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.topbar button.sec:hover {
+  background-color: var(--color-rose);
+  border-color: var(--color-rose);
+  color: #ffffff;
+}
+
+/* Contenedor principal (<main>) con márgenes laterales */
+main {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-4) var(--space-6);
+}
+
+main > h1 {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+/* Rejillas (.grid) en inicio, accesos rápidos y productos */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+/* Layout de toma de pedido (.pedido-layout y .sidebar)*/
+.pedido-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.productos {
+  min-width: 0;
+}
+
+.sidebar {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-4);
+}
+
+.sidebar h2 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border-neutral);
+}
+
+/* Adaptación a Tablet y Escritorio (>= 768px y >= 1024px)*/
+@media (min-width: 768px) {
+  .topbar {
+    padding-inline: var(--space-6);
+  }
+
+  .topbar nav {
+    width: auto;
+    flex-wrap: wrap;
+  }
+
+  main {
+    padding: var(--space-6) var(--space-6) var(--space-6);
+  }
+
+  main > h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+}
+
+@media (min-width: 1024px) {
+  .pedido-layout {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: var(--space-6);
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 84px;
+  }
+}
