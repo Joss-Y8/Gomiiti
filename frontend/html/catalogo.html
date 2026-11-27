@@ -1,25 +1,35 @@
+
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Gomitti</title>
-        <link rel="stylesheet" href="../css/base.css">
-        <link rel="stylesheet" href="../css/layout.css">
-        <link rel="stylesheet" href="../css/vistas.css">
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gomitti | Catálogo</title>
+
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/vistas.css">
+</head>
+
 <body>
     <header class="topbar">
         <a href="../../index.html" class="topbar__brand">
-        <img src="../assets/img/logo-gomitti.png" alt="Gomitti" class="topbar__logo">
+            <img
+                src="../assets/img/logo-gomitti.png"
+                alt="Gomitti"
+                class="topbar__logo"
+            >
         </a>
+
         <nav aria-label="Principal">
             <a href="../../index.html">Inicio</a>
             <a href="pedido.html">Generar Pedido</a>
             <a href="historial.html">Historial de pedidos</a>
             <a class="solo-admin" href="inventario.html">Inventario</a>
-            <a class="solo.admin" href="catalogo.html">Catálogo</a>  
+            <a class="solo-admin" href="catalogo.html">Catálogo</a>
         </nav>
+
         <span>
             <span data-usuario></span>
             <span class="badge" data-rol-texto></span>
@@ -29,16 +39,57 @@
 
     <main>
         <h1>Catálogo y promociones</h1>
+
+        <!-- Mensaje general -->
+        <p id="msg-catalogo" role="alert" aria-live="polite"></p>
+
+        <!-- FORMULARIO DE PRODUCTOS -->
         <form class="card" id="form-producto">
             <h2>Nuevo producto</h2>
-            <label for="nombre">Nombre</label><input id="nombre" required>
+
+            <p id="msg-producto" role="alert" aria-live="polite"></p>
+
+            <label for="nombre">Nombre</label>
+            <input
+                id="nombre"
+                name="nombre"
+                type="text"
+                maxlength="80"
+                required
+            >
+
             <label for="categoria">Categoría</label>
-            <select id="categoria" required><!-- js/catalogo.js: opciones de php/categorias.php --></select>
-            <label for="precio">Precio</label><input id="precio" type="number" min="0" step="0.5" required>
-            <label><input type="checkbox" id="disponible" checked> Disponible</label>
+            <select id="categoria" name="categoria" required>
+                <option value="">Selecciona una categoría</option>
+            </select>
+
+            <label for="precio">Precio</label>
+            <input
+                id="precio"
+                name="precio"
+                type="number"
+                min="0"
+                max="999999"
+                step="0.01"
+                required
+            >
+
+            <label>
+                <input type="checkbox" id="disponible" checked>
+                Disponible
+            </label>
+
+            <label>
+                <input type="checkbox" id="temporada">
+                Producto de temporada
+            </label>
+
             <button type="submit">Agregar producto</button>
         </form>
-  
+
+        <!-- TABLA DE PRODUCTOS -->
+        <h2>Productos registrados</h2>
+
         <div class="tabla-scroll">
             <table>
                 <thead>
@@ -46,25 +97,91 @@
                         <th>Producto</th>
                         <th>Categoría</th>
                         <th>Precio</th>
+                        <th>Existencia</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="productos"><!-- Editar / Eliminar --></tbody>
+
+                <tbody id="productos">
+                    <!-- Se llena desde catalogo.js -->
+                </tbody>
             </table>
         </div>
 
+        <!-- FORMULARIO DE PROMOCIONES -->
         <form class="card" id="form-promo">
-            <h2>Promociones</h2>
-            <label for="promo-nombre">Nombre</label><input id="promo-nombre">
-            <label for="promo-prods">Productos aplicables</label><select id="promo-prods" multiple></select>
-            <label for="promo-precio">Precio o descuento</label><input id="promo-precio" type="number" step="0.5">
+            <h2>Crear promoción</h2>
+
+            <p id="msg-promo" role="alert" aria-live="polite"></p>
+
+            <label for="promo-nombre">Nombre de la promoción</label>
+            <input
+                id="promo-nombre"
+                name="promo-nombre"
+                type="text"
+                maxlength="80"
+                required
+            >
+
+            <label for="promo-prods">Productos aplicables</label>
+            <select
+                id="promo-prods"
+                name="promo-prods"
+                multiple
+                required
+            >
+                <!-- Productos cargados desde catalogo.js -->
+            </select>
+
+            <p>
+                Mantén presionada la tecla Ctrl para seleccionar
+                varios productos.
+            </p>
+
+            <label for="promo-precio">Precio promocional</label>
+            <input
+                id="promo-precio"
+                name="promo-precio"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Ej. 58.00"
+            >
+
+            <label for="promo-descuento">Descuento porcentual</label>
+            <input
+                id="promo-descuento"
+                name="promo-descuento"
+                type="number"
+                min="0.01"
+                max="100"
+                step="0.01"
+                placeholder="Ej. 10"
+            >
+
+            <p>
+                Indica solamente un precio promocional o un
+                descuento porcentual, no ambos.
+            </p>
+
             <button type="submit">Crear promoción</button>
         </form>
-        <ul id="lista-promos"><!-- Activar / Desactivar / Eliminar --></ul>
+
+        <!-- LISTA DE PROMOCIONES -->
+        <section aria-labelledby="titulo-promos">
+            <h2 id="titulo-promos">Promociones registradas</h2>
+
+            <ul id="lista-promos">
+                <!-- Se llena desde catalogo.js -->
+            </ul>
+        </section>
     </main>
 
-    <script src="/backend/js/auth.js"></script>
-    <script>protegerPagina();</script>
-    <script src="/backend/js/catalogo.js"></script>
+    <script src="../../backend/js/auth.js"></script>
+    <script>
+        protegerPagina();
+    </script>
+    <script src="../../backend/js/catalogo.js"></script>
 </body>
 </html>
