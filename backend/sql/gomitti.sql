@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS productos(
     nombre VARCHAR(80) NOT NULL, 
     id_categoria INT NOT NULL, 
     precio DECIMAL(8,2) NOT NULL CHECK (precio >=0), 
-    disponible TINYINT(1) NOT NULL DEFAULT 1, 
+    disponible TINYINT(1)la NOT NULL DEFAULT 1, 
     es_temporada TINYINT(1) NOT NULL DEFAULT 0, 
     FOREIGN KEY(id_categoria) REFERENCES categorias(id_categoria)
 ); 
