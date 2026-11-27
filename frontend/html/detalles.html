@@ -4,17 +4,21 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Gomitti</title>
-        <link rel="stylesheet" href="../css/styles.css">
+        <link rel="stylesheet" href="../css/base.css">
+        <link rel="stylesheet" href="../css/layout.css">
+        <link rel="stylesheet" href="../css/vistas.css">
     </head>
 <body>
     <header class="topbar">
-        <strong>Gomitti</strong>
+        <a href="../../index.html" class="topbar__brand">
+        <img src="../assets/img/logo-gomitti.png" alt="Gomitti" class="topbar__logo">
+        </a>
         <nav aria-label="Principal">
             <a href="../../index.html">Inicio</a>
-            <a href="pedido.html">Pedidos</a>
+            <a href="pedido.html">Pedido</a>
             <a href="historial.html">Historial de pedidos</a>
             <a class="solo-admin" href="inventario.html">Inventario</a>
-            <a class="solo.admin" href="catalogo.html">Catálogo</a>  
+            <a class="solo.admin" href="catalogo.html">Catálogo</a> 
         </nav>
         <span>
             <span data-usuario></span>
