@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const btnEliminar = document.createElement('button');
 
       btnEliminar.type = 'button';
-      btnEliminar.className = 'sec';
+      btnEliminar.className = 'sec danger';
       btnEliminar.textContent = 'Eliminar';
 
       btnEliminar.addEventListener('click', async () => {
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const btnDelete = document.createElement('button');
 
       btnDelete.type = 'button';
-      btnDelete.className = 'sec';
+      btnDelete.className = 'sec danger';
       btnDelete.textContent = 'Eliminar';
 
       btnDelete.addEventListener('click', async () => {

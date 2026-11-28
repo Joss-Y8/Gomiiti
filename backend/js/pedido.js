@@ -61,6 +61,7 @@ function pintarProductos(lista){
     const cat = document.createElement('small'); cat.textContent = p.categoria;
     const pr = document.createElement('p'); pr.textContent = dinero(p.precio);
     const b = document.createElement('button'); b.type = 'button'; b.textContent = 'Agregar';
+    b.className = 'btn-agregar';
     b.addEventListener('click', () => agregar(p));
     card.append(h, cat, pr, b);
     cont.append(card);
