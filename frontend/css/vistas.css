@@ -75,38 +75,6 @@ main > label[for="notas"] {
   margin-bottom: var(--space-1);
 }
 
-/* Botón "Agregar" dentro de las tarjetas de productos en pedido.html */
-.pedido-layout .btn-agregar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: 0.5rem;
-  padding: 0.55rem 0.9rem;
-  border: none;
-  border-radius: 8px;
-  background-color: var(--color-primary-hover);
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease;
-}
-
-.pedido-layout .btn-agregar:hover {
-  opacity: 0.92;
-}
-
-.pedido-layout .btn-agregar:active {
-  transform: scale(0.98);
-}
-
-.pedido-layout .btn-agregar:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
-}
-
 #buscar,
 #articulo,
 #notas {
@@ -121,6 +89,14 @@ main > label[for="notas"] {
 #notas {
   min-height: 90px;
   resize: vertical;
+}
+
+#buscar:focus,
+#articulo:focus,
+#notas:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
 }
 
 .sidebar a.btn {
@@ -154,64 +130,6 @@ main > label[for="notas"] {
   flex-wrap: wrap;
   gap: 0.4rem;
   margin-top: 0.35rem;
-}
-
-/* Botones secundarios (− y +) en el sidebar */
-.sidebar .sec {
-  min-width: 2rem;
-  height: 2rem;
-  padding: 0 0.5rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  background-color: #ffffff;
-  color: #1e293b;
-  font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1;
-  cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-.sidebar .sec:hover:not(:disabled) {
-  background-color: #f1f5f9;
-  border-color: #94a3b8;
-}
-
-.sidebar .sec:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* Botón "Quitar" en el sidebar */
-.sidebar .danger {
-  margin-left: auto;
-  padding: 0.35rem 0.65rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #dc2626;
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.1s ease;
-}
-
-.sidebar .danger:hover {
-  background-color: #b91c1c;
-}
-
-.sidebar .danger:active {
-  transform: scale(0.97);
-}
-
-#buscar:focus,
-#articulo:focus,
-#notas:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-soft);
 }
 
 #lista-productos {
@@ -315,31 +233,6 @@ main > label[for="notas"] {
   display: none;
 }
 
-#confirmar {
-  width: 100%;
-  min-height: var(--touch-target);
-  margin-top: var(--space-2);
-  padding: 0.7rem 1rem;
-  border: none;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-rose);
-  color: #ffffff;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-#confirmar:hover {
-  background-color: var(--color-rose-hover);
-}
-
-/* Extras en detalles.html */
-#extras-contenedor {
-  margin-top: var(--space-4);
-  display: grid;
-  gap: var(--space-3);
-}
-
 /* Tablas (historial.html, catalogo.html, inventario.html) */
 .tabla-scroll {
   width: 100%;
@@ -420,25 +313,6 @@ form.card select:focus {
   box-shadow: 0 0 0 3px var(--color-primary-soft);
 }
 
-form.card button[type="submit"],
-main > button[type="submit"] {
-  margin-top: var(--space-3);
-  min-height: var(--touch-target);
-  padding: 0.65rem 1.25rem;
-  border: none;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-primary);
-  color: #ffffff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-form.card button[type="submit"]:hover,
-main > button[type="submit"]:hover {
-  background-color: var(--color-primary-hover);
-}
-
 #lista-promos {
   display: grid;
   gap: var(--space-2);
@@ -464,55 +338,6 @@ main > button[type="submit"]:hover {
   color: var(--color-primary-hover);
 }
 
-/* Botones de acciones en tabla de productos y lista de promociones (catalogo.html) */
-.tabla-scroll .sec,
-#lista-promos .sec {
-  padding: 0.38rem 0.7rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  background-color: #ffffff;
-  color: #1e293b;
-  font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
-}
-
-.tabla-scroll .sec:hover,
-#lista-promos .sec:hover {
-  background-color: #f1f5f9;
-  border-color: #94a3b8;
-}
-
-.tabla-scroll .sec:active,
-#lista-promos .sec:active {
-  transform: scale(0.97);
-}
-
-/* Botones de eliminar dentro de catálogo */
-.tabla-scroll .sec.danger,
-#lista-promos .sec.danger {
-  border-color: transparent;
-  background-color: #dc2626;
-  color: #ffffff;
-}
-
-.tabla-scroll .sec.danger:hover,
-#lista-promos .sec.danger:hover {
-  background-color: #b91c1c;
-}
-
-/* Separación entre botones en cada fila o ítem de promoción */
-.tabla-scroll td .sec + .sec {
-  margin-left: 0.35rem;
-}
-
-#lista-promos li > .sec {
-  margin-top: 0.45rem;
-  margin-right: 0.4rem;
-}
-
 /* Fila horizontal para Fecha y Método de pago en Registro de Ventas */
 .card:has(#f-fecha),
 form:has(#f-fecha) {
@@ -535,7 +360,6 @@ form:has(#f-fecha) > label[for="f-pago"] {
   color: var(--ink, #1e293b);
 }
 
-/* Si en el HTML el <input> y el <select> están hermanos (fuera del <label>) */
 label[for="f-fecha"] + #f-fecha,
 label[for="f-pago"] + #f-pago {
   width: auto;
@@ -549,21 +373,19 @@ label[for="f-pago"] + #f-pago {
   font-size: 0.9rem;
 }
 
-/* Mantiene el "Total acumulado" en su propia línea debajo de los filtros */
 .card:has(#f-fecha) > :not(label):not(#f-fecha):not(#f-pago),
 form:has(#f-fecha) > :not(label):not(#f-fecha):not(#f-pago) {
   flex-basis: 100%;
   margin-top: 0.25rem;
 }
 
-/* En pantallas pequeñas vuelven a apilarse limpiamente */
 @media (max-width: 560px) {
   label[for="f-fecha"] + #f-fecha,
   label[for="f-pago"] + #f-pago {
     width: 100%;
     max-width: none;
   }
-} 
+}
 
 /* Filtro por estado en inventario.html */
 label[for="f-estado"] {
@@ -667,4 +489,178 @@ label[for="f-estado"] {
   accent-color: var(--accent, #7c3aed);
   cursor: pointer;
   flex-shrink: 0;
+}
+
+/* Botones consolidados (secundarios, destructivos y principales) */
+.sidebar .sec,
+.tabla-scroll .sec,
+#lista-promos .sec,
+#cancelar-edicion {
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: var(--ink, #1e293b);
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.sidebar .sec:hover:not(:disabled),
+.tabla-scroll .sec:hover:not(:disabled),
+#lista-promos .sec:hover:not(:disabled),
+#cancelar-edicion:hover:not(:disabled) {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.sidebar .sec:active:not(:disabled),
+.tabla-scroll .sec:active:not(:disabled),
+#lista-promos .sec:active:not(:disabled),
+#cancelar-edicion:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.sidebar .sec:disabled,
+.tabla-scroll .sec:disabled,
+#lista-promos .sec:disabled,
+#cancelar-edicion:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sidebar .sec {
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.tabla-scroll .sec,
+#lista-promos .sec {
+  padding: 0.38rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+}
+
+.tabla-scroll td .sec + .sec {
+  margin-left: 0.35rem;
+}
+
+#lista-promos li > .sec {
+  margin-top: 0.45rem;
+  margin-right: 0.4rem;
+}
+
+#cancelar-edicion {
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.sidebar .danger,
+.tabla-scroll .sec.danger,
+#lista-promos .sec.danger {
+  border: none;
+  border-radius: 6px;
+  background-color: #dc2626;
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.sidebar .danger:hover,
+.tabla-scroll .sec.danger:hover,
+#lista-promos .sec.danger:hover {
+  background-color: #b91c1c;
+}
+
+.sidebar .danger:active,
+.tabla-scroll .sec.danger:active,
+#lista-promos .sec.danger:active {
+  transform: scale(0.97);
+}
+
+.sidebar .danger {
+  margin-left: auto;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.8rem;
+}
+
+.tabla-scroll .sec.danger,
+#lista-promos .sec.danger {
+  padding: 0.38rem 0.7rem;
+  font-size: 0.82rem;
+}
+
+.pedido-layout .btn-agregar,
+#confirmar,
+form.card button[type="submit"],
+main > button[type="submit"] {
+  min-height: var(--touch-target);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.15s ease, transform 0.15s ease;
+}
+
+.pedido-layout .btn-agregar,
+#confirmar {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pedido-layout .btn-agregar {
+  margin-top: 0.5rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  background-color: var(--color-primary-hover);
+  font-size: 0.9rem;
+}
+
+.pedido-layout .btn-agregar:hover {
+  opacity: 0.92;
+}
+
+.pedido-layout .btn-agregar:active {
+  transform: scale(0.98);
+}
+
+.pedido-layout .btn-agregar:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+#confirmar {
+  margin-top: var(--space-2);
+  padding: 0.7rem 1rem;
+  background-color: var(--color-rose);
+  font-weight: 700;
+}
+
+#confirmar:hover {
+  background-color: var(--color-rose-hover);
+}
+
+form.card button[type="submit"],
+main > button[type="submit"] {
+  margin-top: var(--space-3);
+  padding: 0.65rem 1.25rem;
+  background-color: var(--color-primary);
+}
+
+form.card button[type="submit"]:hover,
+main > button[type="submit"]:hover {
+  background-color: var(--color-primary-hover);
 }
