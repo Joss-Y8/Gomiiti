@@ -1,5 +1,15 @@
 /* Estilos específicos para index, pedido, detalles, historial, catálogo e inventario */
 
+/* Centrar logo en la vista de login */
+#vista-login main img {
+  width: 180px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Inicio (index.html) */
 main > section {
   margin-top: var(--space-6);
