@@ -31,25 +31,27 @@ try {
             'existencia'   => (int)$f['existencia'],
         ];
     }
-    $combos = [];
-    $sqlCombos = "SELECT pr.id_promo, pr.nombre, pr.precio_promo, pr.descuento_pct,
+    $promosActivas = [];
+    $sqlPromos = "SELECT pr.id_promo, pr.nombre, pr.precio_promo, pr.descuento_pct, pr.requiere_combo,
                          GROUP_CONCAT(pp.id_producto ORDER BY pp.id_producto) AS ids_productos
                   FROM promociones pr
                   JOIN promocion_productos pp ON pp.id_promo = pr.id_promo
-                  WHERE pr.activa = 1 AND pr.requiere_combo = 1
+                  WHERE pr.activa = 1
                   GROUP BY pr.id_promo";
-    foreach ($pdo->query($sqlCombos) as $f) {
+    foreach ($pdo->query($sqlPromos) as $f) {
         $ids = $f['ids_productos'] ? array_map('intval', explode(',', $f['ids_productos'])) : [];
         if (!$ids) continue;
-        $combos[] = [
-            'nombre'        => $f['nombre'],
-            'precio_promo'  => $f['precio_promo'] !== null ? (float)$f['precio_promo'] : null,
-            'descuento_pct' => $f['descuento_pct'] !== null ? (float)$f['descuento_pct'] : null,
-            'ids_productos' => $ids,
+        $promosActivas[] = [
+            'nombre'         => $f['nombre'],
+            'precio_promo'   => $f['precio_promo'] !== null ? (float)$f['precio_promo'] : null,
+            'descuento_pct'  => $f['descuento_pct'] !== null ? (float)$f['descuento_pct'] : null,
+            'requiere_combo' => (int)$f['requiere_combo'] === 1,
+            'ids_productos'  => $ids,
         ];
     }
 
-    responder(200, ['ok' => true, 'productos' => $productos, 'promociones' => $combos]);
+    responder(200, ['ok' => true, 'productos' => $productos, 'promociones' => $promosActivas]);
+
 } catch (PDOException $e) {
     error_log('Gomitti productos: ' . $e->getMessage());
     responder(500, ['ok' => false, 'mensaje' => 'No se pudieron cargar los productos.']);

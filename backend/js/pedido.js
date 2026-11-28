@@ -42,7 +42,7 @@ async function cargarProductos(){
   }
 }
 
-/* Mantiene el pedido consistente con el catálogo actual y aplica combos si están completos */
+/* Mantiene el pedido consistente con el catálogo actual y aplica promos generales o combos completos */
 function sincronizarPedido(){
   pedido = pedido.filter(i => productos.some(p => p.id_producto === i.id));
 
@@ -59,11 +59,14 @@ function sincronizarPedido(){
     cantPorId[i.id] = (cantPorId[i.id] || 0) + i.cantidad;
   }
 
-  for(const c of combos){
-    const ids = c.ids_productos || [];
+  for(const pr of combos){
+    const ids = pr.ids_productos || [];
     if(!ids.length) continue;
-    const completo = ids.every(idProd => (cantPorId[idProd] || 0) >= 1);
-    if(!completo) continue;
+
+    if(pr.requiere_combo){
+      const completo = ids.every(idProd => (cantPorId[idProd] || 0) >= 1);
+      if(!completo) continue;
+    }
 
     for(const item of pedido){
       if(!ids.includes(item.id)) continue;
@@ -74,10 +77,10 @@ function sincronizarPedido(){
       const actualC = Math.round(Number(item.precio) * 100);
       let candC = null;
 
-      if(c.precio_promo !== null && c.precio_promo !== undefined){
-        candC = Math.round(Number(c.precio_promo) * 100);
-      } else if(c.descuento_pct !== null && c.descuento_pct !== undefined){
-        candC = Math.round(regC * (100 - Number(c.descuento_pct)) / 100);
+      if(pr.precio_promo !== null && pr.precio_promo !== undefined){
+        candC = Math.round(Number(pr.precio_promo) * 100);
+      } else if(pr.descuento_pct !== null && pr.descuento_pct !== undefined){
+        candC = Math.round(regC * (100 - Number(pr.descuento_pct)) / 100);
       }
 
       if(candC !== null && candC >= 0 && candC < actualC){
