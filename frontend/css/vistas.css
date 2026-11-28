@@ -65,6 +65,38 @@ main > label[for="notas"] {
   margin-bottom: var(--space-1);
 }
 
+/* Botón "Agregar" dentro de las tarjetas de productos en pedido.html */
+.pedido-layout .btn-agregar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.55rem 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-primary-hover);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.pedido-layout .btn-agregar:hover {
+  opacity: 0.92;
+}
+
+.pedido-layout .btn-agregar:active {
+  transform: scale(0.98);
+}
+
+.pedido-layout .btn-agregar:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
 #buscar,
 #articulo,
 #notas {
@@ -103,6 +135,65 @@ main > label[for="notas"] {
 .sidebar a.btn:hover {
   background-color: var(--color-bg-app);
   border-color: var(--color-primary);
+}
+
+/* Fila de controles por ítem dentro del sidebar de pedido.html */
+.sidebar #items li > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+/* Botones secundarios (− y +) en el sidebar */
+.sidebar .sec {
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #1e293b;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.sidebar .sec:hover:not(:disabled) {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.sidebar .sec:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Botón "Quitar" en el sidebar */
+.sidebar .danger {
+  margin-left: auto;
+  padding: 0.35rem 0.65rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #dc2626;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.sidebar .danger:hover {
+  background-color: #b91c1c;
+}
+
+.sidebar .danger:active {
+  transform: scale(0.97);
 }
 
 #buscar:focus,
@@ -361,4 +452,209 @@ main > button[type="submit"]:hover {
 #n-bajo,
 #n-agotado {
   color: var(--color-primary-hover);
+}
+
+/* Botones de acciones en tabla de productos y lista de promociones (catalogo.html) */
+.tabla-scroll .sec,
+#lista-promos .sec {
+  padding: 0.38rem 0.7rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #1e293b;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.tabla-scroll .sec:hover,
+#lista-promos .sec:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.tabla-scroll .sec:active,
+#lista-promos .sec:active {
+  transform: scale(0.97);
+}
+
+/* Botones de eliminar dentro de catálogo */
+.tabla-scroll .sec.danger,
+#lista-promos .sec.danger {
+  border-color: transparent;
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.tabla-scroll .sec.danger:hover,
+#lista-promos .sec.danger:hover {
+  background-color: #b91c1c;
+}
+
+/* Separación entre botones en cada fila o ítem de promoción */
+.tabla-scroll td .sec + .sec {
+  margin-left: 0.35rem;
+}
+
+#lista-promos li > .sec {
+  margin-top: 0.45rem;
+  margin-right: 0.4rem;
+}
+
+/* Fila horizontal para Fecha y Método de pago en Registro de Ventas */
+.card:has(#f-fecha),
+form:has(#f-fecha) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 1.25rem;
+}
+
+.card:has(#f-fecha) > label[for="f-fecha"],
+.card:has(#f-fecha) > label[for="f-pago"],
+form:has(#f-fecha) > label[for="f-fecha"],
+form:has(#f-fecha) > label[for="f-pago"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink, #1e293b);
+}
+
+/* Si en el HTML el <input> y el <select> están hermanos (fuera del <label>) */
+label[for="f-fecha"] + #f-fecha,
+label[for="f-pago"] + #f-pago {
+  width: auto;
+  min-width: 190px;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: var(--ink, #1e293b);
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+/* Mantiene el "Total acumulado" en su propia línea debajo de los filtros */
+.card:has(#f-fecha) > :not(label):not(#f-fecha):not(#f-pago),
+form:has(#f-fecha) > :not(label):not(#f-fecha):not(#f-pago) {
+  flex-basis: 100%;
+  margin-top: 0.25rem;
+}
+
+/* En pantallas pequeñas vuelven a apilarse limpiamente */
+@media (max-width: 560px) {
+  label[for="f-fecha"] + #f-fecha,
+  label[for="f-pago"] + #f-pago {
+    width: 100%;
+    max-width: none;
+  }
+} 
+
+/* Filtro por estado en inventario.html */
+label[for="f-estado"] {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink, #1e293b);
+}
+
+#f-estado {
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 190px;
+  padding: 0.48rem 2.1rem 0.48rem 0.7rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: var(--ink, #1e293b);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.35;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 0.9rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+#f-estado:hover {
+  border-color: #94a3b8;
+  background-color: #f8fafc;
+}
+
+#f-estado:focus {
+  outline: none;
+  border-color: var(--accent, #7c3aed);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+/* Complementos dinámicos en detalles.html */
+#extras-contenedor {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  #extras-contenedor {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+#extras-contenedor fieldset {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+#extras-contenedor legend {
+  padding: 0 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink, #1e293b);
+}
+
+#extras-contenedor label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--ink, #1e293b);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+#extras-contenedor label:hover {
+  background-color: #f8fafc;
+}
+
+#extras-contenedor label:has(input:checked) {
+  background-color: rgba(124, 58, 237, 0.08);
+  font-weight: 600;
+}
+
+#extras-contenedor input[type="checkbox"],
+#extras-contenedor input[type="radio"] {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--accent, #7c3aed);
+  cursor: pointer;
+  flex-shrink: 0;
 }
