@@ -41,7 +41,7 @@ try {
         }
 
         $promos = [];
-        $sql = "SELECT pr.id_promo, pr.nombre, pr.precio_promo, pr.descuento_pct, pr.activa,
+        $sql = "SELECT pr.id_promo, pr.nombre, pr.precio_promo, pr.descuento_pct, pr.requiere_combo, pr.activa,
                        GROUP_CONCAT(pp.id_producto ORDER BY pp.id_producto) AS ids_productos,
                        GROUP_CONCAT(p.nombre ORDER BY p.nombre SEPARATOR '|||') AS nombres_productos
                 FROM promociones pr
@@ -55,6 +55,7 @@ try {
                 'nombre'=>$f['nombre'],
                 'precio_promo'=>$f['precio_promo'] !== null ? (float)$f['precio_promo'] : null,
                 'descuento_pct'=>$f['descuento_pct'] !== null ? (float)$f['descuento_pct'] : null,
+                'requiere_combo'=>(bool)$f['requiere_combo'],
                 'activa'=>(bool)$f['activa'],
                 'ids_productos'=>$f['ids_productos'] ? array_map('intval', explode(',', $f['ids_productos'])) : [],
                 'productos'=>$f['nombres_productos'] ? explode('|||', $f['nombres_productos']) : []
@@ -87,6 +88,25 @@ try {
         responder(201, ['ok'=>true, 'mensaje'=>'Producto agregado. Se creó con existencia inicial de 0; registra la entrada en Inventario.', 'id_producto'=>$idp]);
     }
 
+    if ($accion === 'editar_producto') {
+        $idp = filter_var($in['id_producto'] ?? null, FILTER_VALIDATE_INT);
+        $nombre = trim($in['nombre'] ?? '');
+        $idcat = filter_var($in['id_categoria'] ?? null, FILTER_VALIDATE_INT);
+        $precio = filter_var($in['precio'] ?? null, FILTER_VALIDATE_FLOAT);
+        $temporada = !empty($in['es_temporada']) ? 1 : 0;
+        if (!$idp || $idp < 1) responder(400, ['ok'=>false, 'mensaje'=>'Producto inválido.']);
+        if ($nombre === '' || mb_strlen($nombre) > 80) responder(400, ['ok'=>false, 'mensaje'=>'El nombre es obligatorio y debe tener máximo 80 caracteres.']);
+        if (!$idcat || $idcat < 1) responder(400, ['ok'=>false, 'mensaje'=>'Selecciona una categoría válida.']);
+        if ($precio === false || $precio < 0 || $precio > 999999.99) responder(400, ['ok'=>false, 'mensaje'=>'El precio debe ser un número válido mayor o igual a cero.']);
+        $st=$pdo->prepare('SELECT 1 FROM productos WHERE id_producto=?'); $st->execute([$idp]);
+        if (!$st->fetchColumn()) responder(404, ['ok'=>false, 'mensaje'=>'No se encontró el producto.']);
+        $st=$pdo->prepare('SELECT 1 FROM categorias WHERE id_categoria=?'); $st->execute([$idcat]);
+        if (!$st->fetchColumn()) responder(400, ['ok'=>false, 'mensaje'=>'La categoría seleccionada no existe.']);
+        $pdo->prepare('UPDATE productos SET nombre=?, id_categoria=?, precio=?, es_temporada=? WHERE id_producto=?')
+            ->execute([$nombre,$idcat,$precio,$temporada,$idp]);
+        responder(200, ['ok'=>true, 'mensaje'=>'Producto actualizado.']);
+    }
+
     if ($accion === 'cambiar_disponibilidad') {
         $idp = filter_var($in['id_producto'] ?? null, FILTER_VALIDATE_INT);
         if (!$idp || $idp < 1) responder(400, ['ok'=>false, 'mensaje'=>'Producto inválido.']);
@@ -99,7 +119,6 @@ try {
     if ($accion === 'eliminar_producto') {
         $idp = filter_var($in['id_producto'] ?? null, FILTER_VALIDATE_INT);
         if (!$idp || $idp < 1) responder(400, ['ok'=>false, 'mensaje'=>'Producto inválido.']);
-        // Se evita borrar registros referenciados por ventas o promociones.
         $st=$pdo->prepare('SELECT 1 FROM detalle_venta WHERE id_producto=? LIMIT 1'); $st->execute([$idp]);
         if ($st->fetchColumn()) responder(409, ['ok'=>false, 'mensaje'=>'Este producto ya aparece en ventas. Para conservar el historial, desactiva su disponibilidad en lugar de eliminarlo.']);
         $st=$pdo->prepare('SELECT 1 FROM movimientos_inventario WHERE id_producto=? LIMIT 1'); $st->execute([$idp]);
@@ -117,7 +136,9 @@ try {
         $nombre=trim($in['nombre'] ?? '');
         $precio=($in['precio_promo'] ?? '') === '' ? null : filter_var($in['precio_promo'], FILTER_VALIDATE_FLOAT);
         $descuento=($in['descuento_pct'] ?? '') === '' ? null : filter_var($in['descuento_pct'], FILTER_VALIDATE_FLOAT);
+        $requiereCombo = !empty($in['requiere_combo']) ? 1 : 0;
         $ids=$in['productos'] ?? [];
+
         if ($nombre === '' || mb_strlen($nombre)>80) responder(400, ['ok'=>false, 'mensaje'=>'El nombre de la promoción es obligatorio (máximo 80 caracteres).']);
         if (($precio === null && $descuento === null) || ($precio !== null && $precio === false) || ($descuento !== null && $descuento === false))
             responder(400, ['ok'=>false, 'mensaje'=>'Indica un precio promocional o un descuento.']);
@@ -127,12 +148,25 @@ try {
         if (!is_array($ids) || count($ids)<1) responder(400, ['ok'=>false, 'mensaje'=>'Selecciona al menos un producto.']);
         $ids=array_values(array_unique(array_filter(array_map('intval',$ids), fn($x)=>$x>0)));
         if (!$ids) responder(400, ['ok'=>false, 'mensaje'=>'Selecciona productos válidos.']);
+        if ($requiereCombo && count($ids) < 2) responder(400, ['ok'=>false, 'mensaje'=>'Una promoción de combo estricto requiere seleccionar al menos 2 productos.']);
+
         $marks=implode(',', array_fill(0,count($ids),'?'));
         $st=$pdo->prepare("SELECT COUNT(*) FROM productos WHERE id_producto IN ($marks)"); $st->execute($ids);
         if ((int)$st->fetchColumn() !== count($ids)) responder(400, ['ok'=>false, 'mensaje'=>'Uno o más productos no existen.']);
+
+        if ($precio !== null) {
+            if (!$requiereCombo && count($ids) !== 1) {
+                responder(400, ['ok'=>false, 'mensaje'=>'Un precio promocional aplica a un solo producto. Para varios productos usa un porcentaje de descuento o márcalo como combo estricto.']);
+            }
+            $st=$pdo->prepare("SELECT MIN(precio) FROM productos WHERE id_producto IN ($marks)"); $st->execute($ids);
+            if ($precio >= (float)$st->fetchColumn()) {
+                responder(400, ['ok'=>false, 'mensaje'=>'El precio promocional debe ser menor al precio normal de los productos incluidos.']);
+            }
+        }
+
         $pdo->beginTransaction();
-        $st=$pdo->prepare('INSERT INTO promociones(nombre,precio_promo,descuento_pct,activa) VALUES(?,?,?,1)');
-        $st->execute([$nombre,$precio,$descuento]);
+        $st=$pdo->prepare('INSERT INTO promociones(nombre,precio_promo,descuento_pct,requiere_combo,activa) VALUES(?,?,?,?,1)');
+        $st->execute([$nombre,$precio,$descuento,$requiereCombo]);
         $idpr=(int)$pdo->lastInsertId();
         $st=$pdo->prepare('INSERT INTO promocion_productos(id_promo,id_producto) VALUES(?,?)');
         foreach($ids as $idp) $st->execute([$idpr,$idp]);
@@ -165,4 +199,3 @@ try {
     error_log('Gomitti catálogo: '.$e->getMessage());
     responder(500, ['ok'=>false, 'mensaje'=>'No se pudo completar la operación. Verifica la estructura de la base de datos.']);
 }
-?>

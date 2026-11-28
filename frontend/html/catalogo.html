@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gomitti | Catálogo</title>
+    <title>Gomitti-Catálogo</title>
 
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/layout.css">
@@ -43,9 +42,9 @@
         <!-- Mensaje general -->
         <p id="msg-catalogo" role="alert" aria-live="polite"></p>
 
-        <!-- FORMULARIO DE PRODUCTOS -->
+        <!-- FORMULARIO DE PRODUCTOS (alta y edición) -->
         <form class="card" id="form-producto">
-            <h2>Nuevo producto</h2>
+            <h2 id="titulo-form-producto">Nuevo producto</h2>
 
             <p id="msg-producto" role="alert" aria-live="polite"></p>
 
@@ -85,6 +84,7 @@
             </label>
 
             <button type="submit">Agregar producto</button>
+            <button type="button" class="sec" id="cancelar-edicion" hidden>Cancelar edición</button>
         </form>
 
         <!-- TABLA DE PRODUCTOS -->
@@ -162,8 +162,15 @@
 
             <p>
                 Indica solamente un precio promocional o un
-                descuento porcentual, no ambos.
+                descuento porcentual, no ambos. El precio
+                promocional aplica a un solo producto; para
+                varios productos usa el descuento.
             </p>
+            
+            <label>
+                <input type="checkbox" id="promo-combo">
+                Promo estricta / de combo (solo aplica si se llevan todos los productos seleccionados juntos)
+            </label>
 
             <button type="submit">Crear promoción</button>
         </form>

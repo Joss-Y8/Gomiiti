@@ -1,7 +1,9 @@
-/* pedido.html: catálogo desde la BD + sidebar con resumen, pago y cambio. */
-
+/* pedido.html: catálogo desde la BD + sidebar con resumen, pago y cambio.
+   Requiere auth.js (API, api()). El pedido en curso vive en sessionStorage para
+   no perderse al ir a detalles.html y volver. */
 const CLAVE_PEDIDO = 'gomitti_pedido';
 let productos = [];
+let combos = [];
 let pedido = cargarPedido();          // [{id, nombre, precio, cantidad, max, extras:[{id,nombre,costo}], nota}]
 
 const $ = id => document.getElementById(id);
@@ -31,6 +33,7 @@ async function cargarProductos(){
     const d = await api(API + 'productos.php');
     if(!d.ok){ cont.textContent = d.mensaje || 'No se pudieron cargar los productos.'; return; }
     productos = d.productos;
+    combos = d.promociones || [];
     sincronizarPedido();
     pintarProductos(productos);
     pintarPedido();
@@ -39,14 +42,50 @@ async function cargarProductos(){
   }
 }
 
-/* Mantiene el pedido consistente con el catálogo actual (precio, stock, productos retirados) */
+/* Mantiene el pedido consistente con el catálogo actual y aplica combos si están completos */
 function sincronizarPedido(){
   pedido = pedido.filter(i => productos.some(p => p.id_producto === i.id));
+
   for(const i of pedido){
     const p = productos.find(x => x.id_producto === i.id);
-    i.precio = p.precio; i.max = p.existencia; i.nombre = p.nombre;
+    i.precio = p.precio;
+    i.max = p.existencia;
+    i.nombre = p.nombre;
     if(i.cantidad > i.max) i.cantidad = i.max;
   }
+
+  const cantPorId = {};
+  for(const i of pedido){
+    cantPorId[i.id] = (cantPorId[i.id] || 0) + i.cantidad;
+  }
+
+  for(const c of combos){
+    const ids = c.ids_productos || [];
+    if(!ids.length) continue;
+    const completo = ids.every(idProd => (cantPorId[idProd] || 0) >= 1);
+    if(!completo) continue;
+
+    for(const item of pedido){
+      if(!ids.includes(item.id)) continue;
+      const prodBase = productos.find(p => p.id_producto === item.id);
+      if(!prodBase) continue;
+
+      const regC = Math.round(Number(prodBase.precio) * 100);
+      const actualC = Math.round(Number(item.precio) * 100);
+      let candC = null;
+
+      if(c.precio_promo !== null && c.precio_promo !== undefined){
+        candC = Math.round(Number(c.precio_promo) * 100);
+      } else if(c.descuento_pct !== null && c.descuento_pct !== undefined){
+        candC = Math.round(regC * (100 - Number(c.descuento_pct)) / 100);
+      }
+
+      if(candC !== null && candC >= 0 && candC < actualC){
+        item.precio = candC / 100;
+      }
+    }
+  }
+
   guardarPedido();
 }
 
@@ -59,8 +98,18 @@ function pintarProductos(lista){
     card.className = 'card';
     const h = document.createElement('h3');  h.textContent = p.nombre;
     const cat = document.createElement('small'); cat.textContent = p.categoria;
-    const pr = document.createElement('p'); pr.textContent = dinero(p.precio);
-    const b = document.createElement('button'); b.type = 'button'; b.textContent = 'Agregar';
+    const pr = document.createElement('p');
+    if(p.promo){
+      const normal = document.createElement('s'); normal.textContent = dinero(p.precio);
+      const final = document.createElement('strong'); final.textContent = ' ' + dinero(p.precio_final);
+      const etiqueta = document.createElement('span'); etiqueta.className = 'badge'; etiqueta.textContent = p.promo;
+      pr.append(normal, final, ' ', etiqueta);
+    } else {
+      pr.textContent = dinero(p.precio);
+    }
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = 'Agregar';
     b.className = 'btn-agregar';
     b.addEventListener('click', () => agregar(p));
     card.append(h, cat, pr, b);
@@ -78,7 +127,7 @@ function agregar(p){
   } else {
     pedido.push({id:p.id_producto, nombre:p.nombre, precio:p.precio, cantidad:1, max:p.existencia, extras:[], nota:''});
   }
-  guardarPedido(); pintarPedido();
+  guardarPedido(); sincronizarPedido(); pintarPedido();
 }
 
 function cambiarCantidad(id, delta){
@@ -89,12 +138,12 @@ function cambiarCantidad(id, delta){
   if(nueva > i.max){ mensaje('Solo quedan ' + i.max + ' de ' + i.nombre + '.'); return; }
   mensaje('');
   i.cantidad = nueva;
-  guardarPedido(); pintarPedido();
+  guardarPedido(); sincronizarPedido(); pintarPedido();
 }
 
 function quitar(id){
   pedido = pedido.filter(i => i.id !== id);
-  guardarPedido(); pintarPedido();
+  guardarPedido(); sincronizarPedido(); pintarPedido();
 }
 
 function boton(texto, etiqueta, fn, clase){
@@ -178,7 +227,7 @@ async function confirmarVenta(){
     $('recibido').value = '';
     pintarPedido();
     mensaje('Venta registrada. Folio ' + d.folio + '.', true);
-    cargarProductos();                       // refresca existencias
+    cargarProductos();
   } catch(e){
     mensaje('No hay conexión con el servidor.');
   } finally {

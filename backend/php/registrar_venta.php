@@ -3,6 +3,7 @@
 // El navegador solo manda ids y cantidades; precios, costos y total se leen/recalculan aquí.
 require __DIR__ . '/conexion.php';
 require __DIR__ . '/seguridad.php';
+require __DIR__ . '/promociones.php';
 requerirSesion();                                   // cajero o admin
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') responder(405, ['ok'=>false,'mensaje'=>'Método no permitido.']);
@@ -75,6 +76,11 @@ try {
         }
         $info[$idp] = ['nombre'=>$p['nombre'], 'cent'=>(int)round((float)$p['precio'] * 100)];
     }
+
+    // Precio vigente con promociones activas considerando cantidades/combos del pedido
+    $preciosBase = array_map(function ($x) { return $x['cent']; }, $info);
+    $vig = aplicarPromos($pdo, $preciosBase, $porProducto);
+    foreach ($vig as $idp => $v) $info[$idp]['cent'] = $v['final'];
 
     // Total en centavos (enteros, sin errores de redondeo)
     $totalC = 0;
